@@ -1,0 +1,17 @@
+{
+  "input": {
+    "title": "5 Signs Your Team Has Outgrown Spreadsheets",
+    "link": "https://blog.example.com/outgrown-spreadsheets"
+  },
+  "ai_output": {
+    "linkedin_post": "Your spreadsheet isn't the problem. How many people depend on it is.\n\nWe looked at teams that moved from spreadsheets to automated workflows. Three signs showed up every time:\n\n1. The same data is typed into more than one place.\n2. One person is the only one who knows how the file works.\n3. Reporting takes longer than the work being reported on.\n\nIf two of these sound familiar, it's time to automate the hand-offs, not hire another coordinator.\n\nFull breakdown (and the other two signs) in the article: https://blog.example.com/outgrown-spreadsheets",
+    "x_thread": "Your team has outgrown spreadsheets when the spreadsheet becomes the job. 5 signs 🧵\n---\n1. The same data is typed into 2+ tools every week.\n---\n2. Only one person knows how the master file works. That's a risk, not a process.\n---\n3. Reporting takes longer than the work being reported on.\n---\nThe fix usually isn't a new tool. It's automating the hand-offs between the tools you have.\n---\nAll 5 signs + what to do next: https://blog.example.com/outgrown-spreadsheets",
+    "newsletter_blurb": "Is your team spending more time updating spreadsheets than acting on them? This week we break down five warning signs — from duplicate data entry to single-person dependencies — and how automating the hand-offs between tools gives teams hours back every week. Read more →",
+    "hooks": [
+      "Your spreadsheet isn't the problem. How many people depend on it is.",
+      "If reporting takes longer than the work, something is broken.",
+      "The most expensive spreadsheet is the one only one person understands."
+    ],
+    "hashtags": ["#Automation", "#Operations", "#NoCode", "#Productivity"]
+  }
+}
