@@ -1,0 +1,78 @@
+{
+  "week_ending": "2026-10-02",
+  "project_register_row": {
+    "project_name": "Client Portal Launch",
+    "jira_key": "CPL",
+    "sponsor": "VP Customer Experience",
+    "stakeholder_emails": [
+      "sponsor@example.com",
+      "pmo@example.com"
+    ],
+    "target_date": "2026-10-20",
+    "status": "Active"
+  },
+  "jira_issues_last_7_days": [
+    {
+      "key": "CPL-101",
+      "summary": "Stripe sandbox integration",
+      "status": "Done",
+      "due": "2026-09-25",
+      "critical_path": true
+    },
+    {
+      "key": "CPL-102",
+      "summary": "Refund handling",
+      "status": "In Progress",
+      "due": "2026-10-02",
+      "critical_path": true
+    },
+    {
+      "key": "CPL-110",
+      "summary": "Regression test suite",
+      "status": "In Progress",
+      "due": "2026-10-06",
+      "critical_path": true
+    },
+    {
+      "key": "CPL-111",
+      "summary": "Client test accounts",
+      "status": "Blocked",
+      "due": "2026-10-05",
+      "critical_path": false
+    },
+    {
+      "key": "CPL-095",
+      "summary": "Accessibility audit fixes",
+      "status": "In Progress",
+      "due": "2026-09-26",
+      "critical_path": false
+    },
+    {
+      "key": "CPL-120",
+      "summary": "Release notes draft",
+      "status": "Done",
+      "due": "2026-09-29",
+      "critical_path": false
+    }
+  ],
+  "raid_log_open_items": [
+    {
+      "type": "Risk",
+      "description": "SSO provider API change in October may break login",
+      "severity": "High",
+      "owner": "QA Lead",
+      "mitigation": "Review change notes, add SSO regression tests"
+    },
+    {
+      "type": "Dependency",
+      "description": "Client to provide test accounts",
+      "severity": "Medium",
+      "owner": "Client PM",
+      "mitigation": "Escalate at steering committee if not received by Oct 1"
+    }
+  ],
+  "expected_ai_result": {
+    "rag": "Amber",
+    "rag_reason": "1 of 6 issues overdue (17%) and one open High risk (SSO API change); launch date still achievable."
+  }
+}
