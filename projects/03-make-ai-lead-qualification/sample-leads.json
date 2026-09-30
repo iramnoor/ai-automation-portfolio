@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Angela Ruiz",
+    "email": "angela.ruiz@example.com",
+    "company": "Harbor Freight Partners",
+    "website": "harborfreightpartners.example",
+    "role": "Director of Operations",
+    "team_size": "120",
+    "message": "Our ops team spends ~15 hours a week copying data between our CRM, spreadsheets and project tool. Looking to automate this before Q1. Can we talk this week?",
+    "expected_tier": "Hot"
+  },
+  {
+    "name": "Ben Carter",
+    "email": "ben@example.com",
+    "company": "Carter Design Studio",
+    "website": "carterdesign.example",
+    "role": "Founder",
+    "team_size": "12",
+    "message": "Interested in automating client onboarding at some point. Just exploring options for now.",
+    "expected_tier": "Warm"
+  },
+  {
+    "name": "Student Project",
+    "email": "student123@example.com",
+    "company": "N/A",
+    "website": "",
+    "role": "Student",
+    "team_size": "1",
+    "message": "Can you send me free resources for my class assignment?",
+    "expected_tier": "Cold"
+  }
+]
