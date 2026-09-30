@@ -1,0 +1,59 @@
+[
+  {
+    "source_file": "INV-2026-0931_OfficeHub.pdf",
+    "ai_output": {
+      "vendor_name": "OfficeHub Supplies",
+      "vendor_email": "billing@officehub.example",
+      "invoice_number": "INV-2026-0931",
+      "invoice_date": "2026-09-22",
+      "due_date": "2026-10-22",
+      "currency": "USD",
+      "subtotal": 1240.00,
+      "tax": 74.40,
+      "total_amount": 1314.40,
+      "po_number": "PO-7781",
+      "line_items_summary": "Printer toner, paper, desk chairs (4)",
+      "confidence": "High"
+    },
+    "duplicate_found": false,
+    "expected_path": "Auto-post (QuickBooks draft bill)"
+  },
+  {
+    "source_file": "Invoice_4471_CloudHost.pdf",
+    "ai_output": {
+      "vendor_name": "CloudHost Pro",
+      "vendor_email": "ar@cloudhost.example",
+      "invoice_number": "4471",
+      "invoice_date": "2026-09-25",
+      "due_date": "2026-10-10",
+      "currency": "USD",
+      "subtotal": 8500.00,
+      "tax": 0.00,
+      "total_amount": 8500.00,
+      "po_number": "PO-7702",
+      "line_items_summary": "Annual hosting renewal, 3 production servers",
+      "confidence": "High"
+    },
+    "duplicate_found": false,
+    "expected_path": "Approval required (> $5,000)"
+  },
+  {
+    "source_file": "scan_0012.pdf",
+    "ai_output": {
+      "vendor_name": "Lakeside Catering",
+      "vendor_email": null,
+      "invoice_number": "LC-208",
+      "invoice_date": "2026-09-18",
+      "due_date": null,
+      "currency": "USD",
+      "subtotal": 610.00,
+      "tax": 36.60,
+      "total_amount": 664.60,
+      "po_number": null,
+      "line_items_summary": "Catering for team offsite",
+      "confidence": "Low"
+    },
+    "duplicate_found": false,
+    "expected_path": "Needs review (no PO, subtotal + tax ≠ total → Low confidence)"
+  }
+]
