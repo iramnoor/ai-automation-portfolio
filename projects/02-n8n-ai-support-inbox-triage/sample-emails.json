@@ -1,0 +1,32 @@
+[
+  {
+    "from": "ops@northwindlogistics.example",
+    "subject": "URGENT - nobody on our team can log in",
+    "body": "Since 8am none of our 40 users can log in, we get an 'invalid session' error. Our warehouse is stuck. Please call me ASAP.",
+    "expected": { "category": "Technical Issue", "urgency": "High", "sentiment": "Negative", "route": "Urgent" }
+  },
+  {
+    "from": "maria.k@example.com",
+    "subject": "How do I export my reports to Excel?",
+    "body": "Hi, love the tool! Is there a way to export the monthly report to Excel? I couldn't find the button.",
+    "expected": { "category": "How-To Question", "urgency": "Low", "sentiment": "Positive", "route": "How-To" }
+  },
+  {
+    "from": "finance@brightpathcare.example",
+    "subject": "Charged twice this month",
+    "body": "We were charged twice for the September invoice. Please refund the duplicate charge.",
+    "expected": { "category": "Billing", "urgency": "Medium", "sentiment": "Negative", "route": "Other" }
+  },
+  {
+    "from": "james@example.com",
+    "subject": "Feature idea: dark mode",
+    "body": "Would be great if you added a dark mode. Keep up the good work.",
+    "expected": { "category": "Feature Request", "urgency": "Low", "sentiment": "Positive", "route": "Other" }
+  },
+  {
+    "from": "ceo@clientco.example",
+    "subject": "Very disappointed - considering cancelling",
+    "body": "Third outage this month. If this isn't fixed we will cancel our contract at renewal.",
+    "expected": { "category": "Complaint", "urgency": "High", "sentiment": "Negative", "route": "Urgent" }
+  }
+]

@@ -1,0 +1,241 @@
+{
+  "name": "AI Support Inbox Triage",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## AI Support Inbox Triage\nEvery new email is classified by GPT (category, urgency, sentiment) and logged.\n- **Urgent** → Slack alert\n- **How-To** → AI draft reply saved in Gmail (human sends)\n- **Other** → normal queue\n\n**Credentials:** Gmail OAuth2, OpenAI, Slack, Google Sheets",
+        "height": 240,
+        "width": 420
+      },
+      "id": "b2f0c002-0000-4000-8000-000000000001",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-60, -320]
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [{ "mode": "everyMinute" }]
+        },
+        "simple": false,
+        "filters": {
+          "labelIds": ["INBOX"]
+        },
+        "options": {}
+      },
+      "id": "b2f0c002-0000-4000-8000-000000000002",
+      "name": "Gmail Trigger - New Email",
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.2,
+      "position": [0, 0]
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "You are a customer support triage assistant for a SaaS company. Classify the email and return ONLY JSON:\n{\"category\": \"Billing|Technical Issue|How-To Question|Feature Request|Complaint|Spam/Other\", \"urgency\": \"High|Medium|Low\", \"sentiment\": \"Positive|Neutral|Negative\", \"summary\": \"one sentence\", \"suggested_reply\": \"short friendly reply, or empty string if a human must handle it\"}\nUrgency is High if: service is down, customer cannot log in or pay, legal or cancellation threat, or strongly negative sentiment. Only write suggested_reply for How-To Questions. Never promise refunds, discounts or dates.",
+              "role": "system"
+            },
+            {
+              "content": "=From: {{ $json.from.value[0].address }}\nSubject: {{ $json.subject }}\n\n{{ $json.text }}"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {
+          "temperature": 0.1
+        }
+      },
+      "id": "b2f0c002-0000-4000-8000-000000000003",
+      "name": "OpenAI - Classify Email",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [220, 0],
+      "retryOnFail": true,
+      "maxTries": 3
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            { "id": "g1", "name": "message_id", "value": "={{ $('Gmail Trigger - New Email').item.json.id }}", "type": "string" },
+            { "id": "g2", "name": "thread_id", "value": "={{ $('Gmail Trigger - New Email').item.json.threadId }}", "type": "string" },
+            { "id": "g3", "name": "from", "value": "={{ $('Gmail Trigger - New Email').item.json.from.value[0].address }}", "type": "string" },
+            { "id": "g4", "name": "subject", "value": "={{ $('Gmail Trigger - New Email').item.json.subject }}", "type": "string" },
+            { "id": "g5", "name": "received_at", "value": "={{ $('Gmail Trigger - New Email').item.json.date }}", "type": "string" },
+            { "id": "g6", "name": "category", "value": "={{ $json.message.content.category }}", "type": "string" },
+            { "id": "g7", "name": "urgency", "value": "={{ $json.message.content.urgency }}", "type": "string" },
+            { "id": "g8", "name": "sentiment", "value": "={{ $json.message.content.sentiment }}", "type": "string" },
+            { "id": "g9", "name": "summary", "value": "={{ $json.message.content.summary }}", "type": "string" },
+            { "id": "g10", "name": "suggested_reply", "value": "={{ $json.message.content.suggested_reply }}", "type": "string" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b2f0c002-0000-4000-8000-000000000004",
+      "name": "Set - Triage Result",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [440, 0]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Triage Log",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "received_at": "={{ $json.received_at }}",
+            "from": "={{ $json.from }}",
+            "subject": "={{ $json.subject }}",
+            "category": "={{ $json.category }}",
+            "urgency": "={{ $json.urgency }}",
+            "sentiment": "={{ $json.sentiment }}",
+            "summary": "={{ $json.summary }}"
+          },
+          "matchingColumns": [],
+          "schema": []
+        },
+        "options": {}
+      },
+      "id": "b2f0c002-0000-4000-8000-000000000005",
+      "name": "Google Sheets - Triage Log",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [680, -220]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict", "version": 2 },
+                "conditions": [
+                  {
+                    "id": "r1",
+                    "leftValue": "={{ $json.urgency }}",
+                    "rightValue": "High",
+                    "operator": { "type": "string", "operation": "equals" }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Urgent"
+            },
+            {
+              "conditions": {
+                "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict", "version": 2 },
+                "conditions": [
+                  {
+                    "id": "r2",
+                    "leftValue": "={{ $json.category }}",
+                    "rightValue": "How-To Question",
+                    "operator": { "type": "string", "operation": "equals" }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "How-To"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra",
+          "renameFallbackOutput": "Other"
+        }
+      },
+      "id": "b2f0c002-0000-4000-8000-000000000006",
+      "name": "Switch - Route",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [680, 60]
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "#support-urgent",
+          "mode": "name"
+        },
+        "text": "=:rotating_light: *Urgent support email*\n*From:* {{ $json.from }}\n*Subject:* {{ $json.subject }}\n*Category:* {{ $json.category }} · *Sentiment:* {{ $json.sentiment }}\n*Summary:* {{ $json.summary }}\n<https://mail.google.com/mail/u/0/#inbox/{{ $json.message_id }}|Open in Gmail>",
+        "otherOptions": {}
+      },
+      "id": "b2f0c002-0000-4000-8000-000000000007",
+      "name": "Slack - Urgent Alert",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [940, -80]
+    },
+    {
+      "parameters": {
+        "resource": "draft",
+        "subject": "=Re: {{ $json.subject }}",
+        "message": "={{ $json.suggested_reply }}",
+        "options": {
+          "threadId": "={{ $json.thread_id }}",
+          "sendTo": "={{ $json.from }}"
+        }
+      },
+      "id": "b2f0c002-0000-4000-8000-000000000008",
+      "name": "Gmail - Create Draft Reply",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [940, 80]
+    },
+    {
+      "parameters": {},
+      "id": "b2f0c002-0000-4000-8000-000000000009",
+      "name": "Normal Queue (No Action)",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [940, 240]
+    }
+  ],
+  "connections": {
+    "Gmail Trigger - New Email": {
+      "main": [[{ "node": "OpenAI - Classify Email", "type": "main", "index": 0 }]]
+    },
+    "OpenAI - Classify Email": {
+      "main": [[{ "node": "Set - Triage Result", "type": "main", "index": 0 }]]
+    },
+    "Set - Triage Result": {
+      "main": [[
+        { "node": "Google Sheets - Triage Log", "type": "main", "index": 0 },
+        { "node": "Switch - Route", "type": "main", "index": 0 }
+      ]]
+    },
+    "Switch - Route": {
+      "main": [
+        [{ "node": "Slack - Urgent Alert", "type": "main", "index": 0 }],
+        [{ "node": "Gmail - Create Draft Reply", "type": "main", "index": 0 }],
+        [{ "node": "Normal Queue (No Action)", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "tags": []
+}
