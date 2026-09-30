@@ -1,0 +1,6 @@
+{
+  "meeting_title": "Client Portal Launch – Weekly Sync",
+  "meeting_date": "2026-09-28",
+  "attendees": ["Sarah (PM)", "David (Dev Lead)", "Priya (QA)", "Tom (Client)"],
+  "transcript": "Sarah: Thanks everyone. Main topic is the portal launch on October 20th. David, where are we on the payment integration?\nDavid: Stripe sandbox is working. I still need to finish refund handling, I can have it done by next Friday.\nSarah: Great. Priya, testing?\nPriya: Regression suite is 70% done. The blocker is test accounts from the client side.\nTom: I'll get those test accounts created and sent over by Wednesday.\nSarah: OK. We agreed last week to drop the dark-mode feature from launch scope, so that's confirmed as a phase 2 item.\nDavid: One risk — the SSO provider is changing their API in October, that could affect login.\nSarah: Good catch. Someone needs to review the SSO change notes.\nPriya: I can look at them, but probably not until after the regression suite.\nSarah: Let's make that high priority then. I'll send the updated timeline to the steering committee by Thursday."
+}
