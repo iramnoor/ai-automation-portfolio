@@ -1,6 +1,7 @@
 # AI Automation Portfolio
 
 **Irum Ishaq Bukhari** · Senior Product & Project Manager → AI Automation
+
 No-code / low-code automation with **n8n**, **Make** and **Zapier**, powered by LLMs (OpenAI GPT-4o family).
 
 I design automations the way I run programs: start from the business problem, map the process, define success metrics, then build the smallest workflow that removes the manual work — with error handling, human approval where it matters, and a log for every run.
